@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #004853;
             margin: 0;
             padding: 0;
             display: flex;
@@ -40,13 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         form {
-            background-color: #fff;
+            background-color: #007e80;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+
+        #sesion-txt{
+            margin-right: 100px;
         }
 
         label {
@@ -75,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-    <h2 style="text-align: center;">Iniciar sesión</h2>
+    <h2 id="sesion-txt" style="text-align: center;">Iniciar sesión</h2>
 
     <?php
     if (isset($mensaje_error)) {

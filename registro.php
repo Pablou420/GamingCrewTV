@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #004853;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,8 +16,12 @@
             height: 100vh;
         }
 
+        #registro-txt{
+            margin-right: 100px;
+        }
+
         form {
-            background-color: #fff;
+            background-color: #007e80;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -47,7 +51,7 @@
 </head>
 <body>
 
-    <h2 style="text-align: center;">Registro</h2>
+    <h2 id="registro-txt" style="text-align: center;">Registro  </h2>
 
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <label for="usuario">Usuario:</label>

@@ -7,29 +7,39 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
+            background-color: #004853;
+            margin: auto;
+            margin-left: 100px;
+            margin-bottom: 100px;
             padding: 0;
-            display: flex;
-            align-items: center;
             justify-content: space-around;
-            height: 100vh;
+            height: 220px;
         }
 
         #video-container {
             flex: 1;
+            margin-top: 10px;
             max-width: 800px;
+            align-items: center;
             border-radius: 8px;
+            background-color: #007e80;
             overflow: hidden;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #jitsi-container {
+            align-items: center;
+            position: relative;
+            top: 40px; left: 70px;
         }
 
         #chat-container {
             flex: 1;
             margin-left: 20px;
+            margin-bottom: 20px;
             max-width: 400px;
             padding: 20px;
-            background-color: #fff;
+            background-color: #00b9bd;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -48,9 +58,6 @@
 
     <div id="video-container">
         <h2>Transmisión en Vivo</h2>
-        <video id="video" controls autoplay playsinline style="width: 100%;"></video>
-    </div>
-
     <div id="chat-container">
         <h2>Chat en Vivo</h2>
         <ul id="messages"></ul>
@@ -58,9 +65,26 @@
             <input id="m" autocomplete="off" /><button>Enviar</button>
         </form>
     </div>
+    
+    <div id="jitsi-container">
+    <script src="https://meet.jit.si/external_api.js"></script>
+        <script>
+            var domain = "meet.jit.si";
+            var options = {
+                roomName: "GamingCrewTV",
+                width: 1500,
+                height: 700,
+                parentNode: undefined,
+                configOverwrite: {},
+                interfaceConfigOverwrite: {}
+            }
+            var api = new JitsiMeetExternalAPI(domain, options);
+            </script>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+    </div>
+
         $(document).ready(function () {
             function actualizarChat() {
                 // Obtener mensajes desde el archivo
@@ -97,6 +121,7 @@
             setInterval(actualizarChat, 2000);
         });
     </script>
+    
 
 </body>
 </html>
