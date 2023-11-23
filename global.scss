@@ -1,0 +1,19 @@
+.centrado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+.wrapper {
+    width: 370px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    color: black;
+    background-color: #004853;
+    border-radius: 10px;
+    padding: 30px 40px;
+    margin: 0 auto;
+    margin-top: 12px;
+}

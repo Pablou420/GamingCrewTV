@@ -1,67 +1,62 @@
+<?php
+session_start();
+
+$usuarios = [];
+
+// Verificar el formulario de registro
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["registro"])) {
+    $nombre = isset($_POST["nombre"]) ? $_POST["nombre"] : null;
+    $email = isset($_POST["email"]) ? $_POST["email"] : null;
+    $contrasena = isset($_POST["contrasena"]) ? $_POST["contrasena"] : null;
+
+    // Verificar si el usuario ya existe en el array
+    if ($email !== null && isset($usuarios[$email])) {
+        $error_message = "El correo electrónico ya está registrado. Intenta con otro.";
+    } else {
+        // Almacenar la contraseña de forma segura utilizando password_hash()
+        $hash = password_hash($contrasena, PASSWORD_DEFAULT);
+        
+        // Agregar el nuevo usuario al array con la contraseña hasheada
+        $usuarios[$email] = ["nombre" => $nombre, "contrasena" => $hash];
+        $_SESSION["new_user"] = $email;
+
+        header("Location: index.php"); // Redirige a la página de inicio de sesión después de registrar
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #004853;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        #registro-txt{
-            margin-right: 100px;
-        }
-
-        form {
-            background-color: #007e80;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="global.scss">
 </head>
-<body>
+<body class="centrado">
+    
+    <div class="wrapper">
+        <h2>Registro</h2>
+        
+        <?php if (isset($error_message)): ?>
+            <p style="color: red;"><?php echo $error_message; ?></p>
+        <?php endif; ?>
 
-    <h2 id="registro-txt" style="text-align: center;">Registro  </h2>
-
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="usuario" required>
-
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena" required>
-
-        <input type="submit" value="Registrarse">
-    </form>
+        <!-- Formulario de registro -->
+        <form method="post" action="">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <br><br>
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            <br><br>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+            <br><br>
+            <input type="submit" name="registro" value="Registrarse">
+        </form>
+    </div>
 
 </body>
 </html>

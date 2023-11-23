@@ -1,23 +1,21 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $usuario = $_POST["usuario"];
-    $contrasena = $_POST["contrasena"];
+$usuarios = [];
 
-    // Leer información del usuario desde el archivo CSV (puedes mejorar esto utilizando una base de datos)
-    $registros = array_map('str_getcsv', file('usuarios.csv'));
+// Verificar el formulario de inicio de sesión
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
+    $username = isset($_POST["username"]) ? $_POST["username"] : null;
+    $password = isset($_POST["password"]) ? $_POST["password"] : null;
 
-    foreach ($registros as $registro) {
-        if ($registro[0] == $usuario && password_verify($contrasena, $registro[1])) {
-            // Iniciar sesión
-            $_SESSION["usuario"] = $usuario;
-            header("Location: transmision.php");  // Redirige a la página de transmisión
-            exit();
-        }
+    // Verificar si el usuario existe en el array
+    if ($username !== null && $password !== null && isset($usuarios[$username]) && password_verify($password, $usuarios[$username]["contrasena"])) {
+        $_SESSION["username"] = $username;
+        header("Location: pagina-inicio.php"); 
+        exit();
+    } else {
+        $error_message = "Datos incorrectos";
     }
-
-    $mensaje_error = "Credenciales incorrectas. Por favor, inténtalo de nuevo.";
 }
 ?>
 
@@ -26,78 +24,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesión</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #004853;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        form {
-            background-color: #007e80;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        #sesion-txt{
-            margin-right: 100px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4caf50;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        p {
-            margin-top: 16px;
-            text-align: center;
-        }
-    </style>
+    <title>Inicio de Sesión</title>
+    <link rel="stylesheet" type="text/css" href="global.scss">
 </head>
-<body>
+<body class="centrado">
+    <div>
+        <h2>Iniciar Sesión</h2>
 
-    <h2 id="sesion-txt" style="text-align: center;">Iniciar sesión</h2>
+        <?php if (isset($error_message)): ?>
+            <p style="color: red;"><?php echo $error_message; ?></p>
+        <?php endif; ?>
 
-    <?php
-    if (isset($mensaje_error)) {
-        echo "<p style='color: red; text-align: center;'>$mensaje_error</p>";
-    }
-    ?>
-
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-        <label for="usuario">Usuario:</label>
-        <input type="text" id="usuario" name="usuario" required>
-
-        <label for="contrasena">Contraseña:</label>
-        <input type="password" id="contrasena" name="contrasena" required>
-
-        <input type="submit" value="Iniciar sesión">
-    </form>
-
-    <p>¿No tienes una cuenta? <a href="registro.php">Regístrate</a></p>
-
+        <form method="post" action="">
+            <label for="username">Nombre de Usuario:</label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <br><br>
+            <input type="submit" name="login" value="Iniciar Sesión">
+        </form>
+        <p>¿No tienes una cuenta? <a href="registro.php">Regístrate aquí</a>.</p>
+    </div>
 </body>
 </html>

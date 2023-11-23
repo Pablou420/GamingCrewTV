@@ -4,70 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transmisión en Vivo con Chat</title>
+    <link rel="stylesheet" type="text/css" href="global.scss">
     <style>
         body {
-            font-family: Arial, sans-serif;
             background-color: #004853;
-            margin: auto;
-            margin-left: 100px;
-            margin-bottom: 100px;
-            padding: 0;
+            margin: 0;
+            display: flex;
             justify-content: space-around;
-            height: 220px;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        #video-container {
-            flex: 1;
-            margin-top: 10px;
-            max-width: 800px;
-            align-items: center;
-            border-radius: 8px;
-            background-color: #007e80;
+        #jitsi-container,
+        #chat-container {
+            width: 45%;
+            height: 80vh;
             overflow: hidden;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         #jitsi-container {
-            align-items: center;
-            position: relative;
-            top: 40px; left: 70px;
+            background-color: #000;
         }
 
         #chat-container {
-            flex: 1;
-            margin-left: 20px;
-            margin-bottom: 20px;
-            max-width: 400px;
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            background-color: #00b9bd;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         #messages {
-            list-style: none;
-            padding: 0;
+            flex: 1;
+            overflow-y: auto;
         }
 
-        form {
-            margin-top: 20px;
+        #form {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #m {
+            flex: 1;
+            padding: 5px;
+        }
+
+        button {
+            margin-left: 10px;
         }
     </style>
 </head>
 <body>
-
-    <div id="video-container">
-        <h2>Transmisión en Vivo</h2>
-    <div id="chat-container">
-        <h2>Chat en Vivo</h2>
-        <ul id="messages"></ul>
-        <form id="form" action="">
-            <input id="m" autocomplete="off" /><button>Enviar</button>
-        </form>
-    </div>
-    
     <div id="jitsi-container">
-    <script src="https://meet.jit.si/external_api.js"></script>
+        <script src="https://meet.jit.si/external_api.js"></script>
+        <!-- Agrega el siguiente elemento de video -->
+        <video id="video" autoplay playsinline muted></video>
         <script>
             var domain = "meet.jit.si";
             var options = {
@@ -79,19 +71,29 @@
                 interfaceConfigOverwrite: {}
             }
             var api = new JitsiMeetExternalAPI(domain, options);
-            </script>
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
+        </script>
     </div>
 
+
+    <div id="chat-container">
+        <div id="messages"></div>
+        <form id="form">
+            <input type="text" id="m" autocomplete="off" placeholder="Escribe tu mensaje...">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
         $(document).ready(function () {
             function actualizarChat() {
-                // Obtener mensajes desde el archivo
                 $.get('obtener_mensajes.php', function (data) {
                     $('#messages').html(data);
+                    // Hacer scroll hacia abajo para mostrar el mensaje más reciente
+                    var chatContainer = document.getElementById('messages');
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
                 });
             }
+
 
             // Manejar el envío de mensajes desde el formulario
             $('#form').submit(function () {
@@ -121,7 +123,5 @@
             setInterval(actualizarChat, 2000);
         });
     </script>
-    
-
 </body>
 </html>

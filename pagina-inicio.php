@@ -32,7 +32,7 @@
 </head>
 <body>
 
-    <h2>Bienvenido, <?php echo $usuario; ?>!</h2>
+    <h2>Bienvenido</h2>
     <!-- Contenido de la página de inicio -->
 
     <p><a href="cerrar_sesion.php">Cerrar sesión</a></p>
