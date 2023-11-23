@@ -1,14 +1,21 @@
 <?php
-// Leer mensajes desde el archivo
-$mensajes = file('chat.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+$archivo = 'chat.txt';
 
-// Mostrar mensajes en orden inverso (los más recientes primero)
-$mensajes = array_reverse($mensajes);
+// Verificar si el archivo existe y es legible
+if (file_exists($archivo) && is_readable($archivo)) {
+    // Leer mensajes desde el archivo
+    $mensajes = file($archivo, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-// Mostrar mensajes en formato de lista HTML
-echo '<ul>'; // Agrega esta línea para empezar la lista HTML
-foreach ($mensajes as $mensaje) {
-    echo '<li>' . $mensaje . '</li>';
+    if ($mensajes !== false) {
+        echo '<ul>';
+        foreach ($mensajes as $mensaje) {
+            echo '<li>' . $mensaje . '</li>';
+        }
+        echo '</ul>';
+    } else {
+        echo 'Error al leer el archivo de mensajes.';
+    }
+} else {
+    echo 'El archivo de mensajes no existe o no es legible.';
 }
-echo '</ul>'; // Agrega esta línea para cerrar la lista HTML
 ?>

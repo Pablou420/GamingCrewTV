@@ -26,6 +26,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de Sesión</title>
     <link rel="stylesheet" type="text/css" href="global.scss">
+    <style>
+        body {
+            background-color: #004853;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        input{
+            background: transparent;
+        }
+    </style>
 </head>
 <body class="centrado">
     <div>

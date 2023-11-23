@@ -55,8 +55,9 @@
         }
     </style>
 </head>
+
 <body>
-    <div id="jitsi-container">
+    <div  id="jitsi-container">
         <script src="https://meet.jit.si/external_api.js"></script>
         <!-- Agrega el siguiente elemento de video -->
         <video id="video" autoplay playsinline muted></video>
@@ -72,6 +73,7 @@
             }
             var api = new JitsiMeetExternalAPI(domain, options);
         </script>
+        <p class="centrado"><a href="cerrar_sesion.php">Cerrar sesión</a></p>
     </div>
 
 
@@ -85,15 +87,15 @@
 
     <script>
         $(document).ready(function () {
-            function actualizarChat() {
-                $.get('obtener_mensajes.php', function (data) {
-                    $('#messages').html(data);
-                    // Hacer scroll hacia abajo para mostrar el mensaje más reciente
-                    var chatContainer = document.getElementById('messages');
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                });
-            }
-
+        function actualizarChat() {
+            // Obtener mensajes desde el archivo
+            $.get('obtener_mensajes.php', function (data) {
+                console.log('Respuesta del servidor:', data); // Agregamos un mensaje de depuración
+                $('#messages').html(data);
+            }).fail(function () {
+                console.error('Error al obtener mensajes del servidor.'); // Agregamos un mensaje de error
+            });
+        }
 
             // Manejar el envío de mensajes desde el formulario
             $('#form').submit(function () {
@@ -123,5 +125,6 @@
             setInterval(actualizarChat, 2000);
         });
     </script>
+    
 </body>
 </html>
